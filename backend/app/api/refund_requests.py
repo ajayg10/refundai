@@ -2,13 +2,13 @@
 Refund request API endpoints.
 
 Covers:
-  POST   /refund-requests              — create + trigger TrueForge agent
-  GET    /refund-requests              — list all
-  GET    /refund-requests/{id}         — get one
-  GET    /refund-requests/{id}/activity — audit log timeline
-  POST   /refund-requests/{id}/approve — human approves → TrueForge allow
-  POST   /refund-requests/{id}/reject  — human rejects  → TrueForge deny
-  GET    /dashboard                    — stats
+  POST   /refund-requests              â€” create + trigger TrueForge agent
+  GET    /refund-requests              â€” list all
+  GET    /refund-requests/{id}         â€” get one
+  GET    /refund-requests/{id}/activity â€” audit log timeline
+  POST   /refund-requests/{id}/approve â€” human approves â†’ TrueForge allow
+  POST   /refund-requests/{id}/reject  â€” human rejects  â†’ TrueForge deny
+  GET    /dashboard                    â€” stats
 """
 import asyncio
 import logging
@@ -33,14 +33,14 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-# ── ID generator ──────────────────────────────────────────────────────────
+# â”€â”€ ID generator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def _new_rr_id(db: Session) -> str:
     count = db.query(models.RefundRequest).count()
     return f"RR-{count + 1:04d}"
 
 
-# ── Background task: run TrueForge agent investigation ───────────────────
+# â”€â”€ Background task: run TrueForge agent investigation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 async def _run_agent_investigation(refund_request_id: str) -> None:
     """
@@ -54,7 +54,7 @@ async def _run_agent_investigation(refund_request_id: str) -> None:
         if not rr:
             return
 
-        # Update status → INVESTIGATING
+        # Update status â†’ INVESTIGATING
         rr.status = "INVESTIGATING"
         rr.updated_at = datetime.utcnow()
         db.commit()
@@ -70,7 +70,7 @@ async def _run_agent_investigation(refund_request_id: str) -> None:
         rr.trueforge_session_id = session_id
         db.commit()
 
-        # Start investigation turn (non-streaming — agent runs async)
+        # Start investigation turn (non-streaming â€” agent runs async)
         turn_id = await trueforge_service.start_investigation_turn(
             session_id, refund_request_id
         )
@@ -111,15 +111,16 @@ async def _poll_turn_for_approval(
     for _ in range(max_polls):
         await asyncio.sleep(poll_interval)
         try:
-            turn = await trueforge_service.get_turn(session_id, turn_id)
-            state = turn.get("state", {})
+            turn_resp = await trueforge_service.get_turn(session_id, turn_id)
+            turn_data = turn_resp.get("data", {})
+            state = turn_data.get("state", {})
             status = state.get("status")
 
             if status == "running":
                 continue  # still going
 
             if status == "done":
-                required_actions = state.get("requiredActions", [])
+                required_actions = state.get("required_actions") or state.get("requiredActions", [])
 
                 if required_actions:
                     # Agent is paused for approval
@@ -184,7 +185,7 @@ async def _poll_turn_for_approval(
     logger.warning("Turn %s polling timed out", turn_id)
 
 
-# ── ENDPOINTS ─────────────────────────────────────────────────────────────
+# â”€â”€ ENDPOINTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 @router.post("/refund-requests", response_model=RefundRequestOut, status_code=201)
 async def create_refund_request(
@@ -440,3 +441,5 @@ def get_dashboard_stats(db: Session = Depends(get_db)):
         total_refunded=total_refunded,
         investigating=investigating,
     )
+
+

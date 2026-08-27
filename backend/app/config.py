@@ -1,15 +1,15 @@
-"""
-Application configuration — reads from environment variables / .env file.
+﻿"""
+Application configuration â€” reads from environment variables / .env file.
 """
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
     # Database
-    database_url: str = "postgresql://postgres:refundguard@localhost:5432/refundguard"
+    database_url: str = "postgresql://postgres:ajay10@127.0.0.1:5432/refundguard"
 
     # TrueForge
-    trueforge_base_url: str = "http://localhost:8790"
+    trueforge_base_url: str = "http://localhost:8791"
 
     # Daytona (sandbox)
     daytona_api_key: str = ""

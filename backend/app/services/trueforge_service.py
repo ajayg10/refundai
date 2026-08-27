@@ -1,4 +1,4 @@
-"""
+﻿"""
 TrueForge HTTP client service.
 
 Wraps TrueForge REST API calls so the FastAPI backend can:
@@ -7,7 +7,7 @@ Wraps TrueForge REST API calls so the FastAPI backend can:
   3. Submit approval decisions (allow / deny)
   4. Poll session events for activity feed
 
-TrueForge SDK is TypeScript-only — we call it via HTTP using httpx.
+TrueForge SDK is TypeScript-only Ã¢â‚¬â€ we call it via HTTP using httpx.
 Base URL: http://localhost:8790
 """
 import logging
@@ -32,7 +32,7 @@ async def create_session() -> str:
         )
         resp.raise_for_status()
         data = resp.json()
-        session_id = data["id"]
+        session_id = data["data"]["id"]
         logger.info("TrueForge session created: %s", session_id)
         return session_id
 
@@ -58,12 +58,12 @@ async def start_investigation_turn(
             f"{TRUEFORGE_URL}/api/v1/sessions/{session_id}/turns",
             json={
                 "input": [{"type": "user.message", "content": message}],
-                "stream": False,  # non-streaming — we poll for events separately
+                "stream": False,  # non-streaming Ã¢â‚¬â€ we poll for events separately
             },
         )
         resp.raise_for_status()
         data = resp.json()
-        turn_id = data["id"]
+        turn_id = data["data"]["id"]
         logger.info("TrueForge turn started: %s (session=%s)", turn_id, session_id)
         return turn_id
 
@@ -103,7 +103,7 @@ async def submit_approval(
         )
         resp.raise_for_status()
         data = resp.json()
-        turn_id = data["id"]
+        turn_id = data["data"]["id"]
         logger.info(
             "TrueForge approval submitted: allow=%s turn=%s session=%s",
             allow, turn_id, session_id,
@@ -158,7 +158,7 @@ async def ensure_agent_exists() -> bool:
             "name": AGENT_NAME,
             "manifest": {
                 "model": {
-                    "name": "google-gemini/gemini-3.6-flash",
+                    "name": "google-gemini/gemini-3-1-pro-preview",
                     "params": {"max_tokens": 8192, "temperature": 0.1},
                 },
                 "instructions": _AGENT_INSTRUCTIONS,
@@ -166,7 +166,7 @@ async def ensure_agent_exists() -> bool:
                     {
                         "name": "refundguard-api",
                         "enable_tools": ["@all"],
-                        # Only process_refund requires human approval — enforced by harness
+                        # Only process_refund requires human approval Ã¢â‚¬â€ enforced by harness
                         "require_approval_for_tools": ["process_refund"],
                         "preload": True,
                     }
@@ -204,33 +204,22 @@ Your job is to investigate customer refund requests using authoritative applicat
 
 STRICT RULES:
 1. Never invent customer, order, payment, refund-history, or policy information.
-2. Always use tools to retrieve factual data — never assume.
-3. Use the refund policy returned by get_refund_policy() — never invent policy rules.
+2. Always use tools to retrieve factual data.
+3. Use the refund policy returned by get_refund_policy() -- never invent policy rules.
 4. Never approve your own refund. Human approval is required.
-5. Never call process_refund without explicit human approval — the system will enforce this.
-6. Always call create_audit_log for every significant action.
+5. Never call process_refund without explicit human approval -- the system will enforce this.
 
-INVESTIGATION WORKFLOW:
-When you receive a refund request ID, execute these steps in order:
-1. Call get_refund_request(refund_request_id) to get request details
-2. Call get_customer(customer_id) to verify the customer
-3. Call get_order(order_id) to get order details
-4. Call get_payment(order_id) to verify payment status
-5. Call get_refund_history(order_id) to check previous refunds
-6. Call get_refund_policy() to retrieve the authoritative policy
-7. Call calculate_refund(order_id, reason) to calculate the recommended amount
-   — this runs in the sandbox for verified, auditable calculation
-8. Analyze eligibility based on what the tools returned
-9. Generate a clear recommendation with evidence and risk level
-10. Call process_refund(refund_request_id, approved_amount) — this will PAUSE for human approval
+EFFICIENT INVESTIGATION WORKFLOW:
+When you receive a refund request ID, execute these steps efficiently:
+1. Call get_refund_request(refund_request_id) to get request, order, customer, and payment details.
+2. Call get_refund_policy() and calculate_refund(order_id, reason) to evaluate policy and calculate recommended amount.
+3. Analyze eligibility, generate a clear recommendation, and call process_refund(refund_request_id, approved_amount) which will PAUSE for human approval.
 
 Your recommendation must include:
 - Eligibility decision (eligible / not eligible)
-- Policy rule applied (from the policy document)
-- Recommended refund amount (from calculate_refund, not invented)
-- Risk level and reason
-- Clear explanation of the evidence
-
-After human approval is granted, the system will resume and process_refund will execute.
-After human rejection, acknowledge the decision and close the investigation.
+- Policy rule applied (from policy document)
+- Recommended refund amount
+- Risk level and clear explanation
 """
+
+

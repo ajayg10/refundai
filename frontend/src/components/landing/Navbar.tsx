@@ -6,7 +6,7 @@ const NAV_LINKS = [
   { label: 'How it works', href: '#how-it-works' },
   { label: 'Safety', href: '#safety' },
   { label: 'TrueForge', href: '#trueforge' },
-  { label: 'GitHub', href: 'https://github.com', target: '_blank' },
+  { label: 'GitHub', href: 'https://github.com/harshitsaxena214/refundai', target: '_blank' },
 ]
 
 export function Navbar() {

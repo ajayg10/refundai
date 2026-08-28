@@ -100,7 +100,7 @@ export function FinalCta() {
               Try RefundGuard
             </button>
             <a
-              href="https://github.com"
+              href="https://github.com/harshitsaxena214/refundai"
               target="_blank"
               rel="noopener noreferrer"
               style={{

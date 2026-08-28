@@ -75,7 +75,7 @@ export function TrueForgeSection() {
                   Explore TrueForge
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/truefoundry/trueforge"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{

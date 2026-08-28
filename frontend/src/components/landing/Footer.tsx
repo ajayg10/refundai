@@ -3,7 +3,7 @@ const FOOTER_LINKS = [
   { label: 'How it works', href: '#how-it-works' },
   { label: 'Safety', href: '#safety' },
   { label: 'TrueForge', href: '#trueforge' },
-  { label: 'GitHub', href: 'https://github.com', external: true },
+  { label: 'GitHub', href: 'https://github.com/harshitsaxena214/refundai', external: true },
   { label: 'Demo', href: '/dashboard', demo: true },
 ]
 

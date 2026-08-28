@@ -63,8 +63,8 @@ export function Dashboard() {
       {/* Header */}
       <header className="border-b border-slate-800 px-8 py-5 flex items-center justify-between glass sticky top-0 z-10">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-            <Shield className="text-white" size={18} />
+          <div className="w-8 h-8 rounded-lg bg-[rgba(214,168,79,0.08)] border border-[rgba(214,168,79,0.2)] flex items-center justify-center">
+            <Shield className="text-[#D6A84F]" size={18} />
           </div>
           <div>
             <h1 className="text-base font-bold text-white leading-none">RefundGuard</h1>
@@ -74,7 +74,7 @@ export function Dashboard() {
         <button
           id="btn-new-request"
           onClick={() => setShowNew(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-all shadow-lg shadow-indigo-900/30"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F2EFE8] hover:bg-white text-[#080808] text-sm font-semibold transition-all shadow-lg shadow-black/40"
         >
           <Plus size={16} />
           New Request
@@ -92,12 +92,12 @@ export function Dashboard() {
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
-              { label: 'Total Requests', value: stats.total_requests, icon: Search, color: 'text-indigo-400' },
-              { label: 'Investigating', value: stats.investigating, icon: Zap, color: 'text-indigo-400' },
-              { label: 'Awaiting Approval', value: stats.pending_approval, icon: Clock, color: 'text-amber-400' },
-              { label: 'Completed', value: stats.completed_refunds, icon: CheckCircle, color: 'text-emerald-400' },
-              { label: 'Rejected', value: stats.rejected_requests, icon: XCircle, color: 'text-red-400' },
-              { label: 'Total Refunded', value: `$${parseFloat(stats.total_refunded).toFixed(0)}`, icon: DollarSign, color: 'text-emerald-400' },
+              { label: 'Total Requests', value: stats.total_requests, icon: Search, color: 'text-[#8A8780]' },
+              { label: 'Investigating', value: stats.investigating, icon: Zap, color: 'text-[#8A8780]' },
+              { label: 'Awaiting Approval', value: stats.pending_approval, icon: Clock, color: 'text-[#D6A84F]' },
+              { label: 'Completed', value: stats.completed_refunds, icon: CheckCircle, color: 'text-[#86d4a5]' },
+              { label: 'Rejected', value: stats.rejected_requests, icon: XCircle, color: 'text-[#e88c8c]' },
+              { label: 'Total Refunded', value: `$${parseFloat(stats.total_refunded).toFixed(0)}`, icon: DollarSign, color: 'text-[#86d4a5]' },
             ].map(card => {
               const Icon = card.icon
               return (
@@ -115,7 +115,7 @@ export function Dashboard() {
         <div className="glass rounded-2xl border border-slate-800 overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
             <h3 className="font-semibold text-white">Refund Requests</h3>
-            {loading && <div className="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />}
+            {loading && <div className="w-4 h-4 border-2 border-[#8A8780] border-t-transparent rounded-full animate-spin" />}
           </div>
           <div className="divide-y divide-slate-800">
             {requests.length === 0 && !loading ? (
@@ -124,7 +124,7 @@ export function Dashboard() {
                 <p>No refund requests yet.</p>
                 <button
                   onClick={() => setShowNew(true)}
-                  className="mt-3 text-indigo-400 text-sm hover:text-indigo-300"
+                  className="mt-3 text-[#D6A84F] text-sm hover:text-[#C99A3D]"
                 >
                   Create your first request →
                 </button>
@@ -187,7 +187,7 @@ export function Dashboard() {
                     key={s.id}
                     id={`demo-${s.id}`}
                     onClick={() => fillDemo(s.id)}
-                    className="text-left px-3 py-2 rounded-lg border border-slate-700 hover:border-indigo-700 hover:bg-indigo-950/30 transition-all text-xs"
+                    className="text-left px-3 py-2 rounded-lg border border-slate-700 hover:border-[#D6A84F]/40 hover:bg-[#D6A84F]/5 transition-all text-xs"
                   >
                     <span className="font-medium text-slate-200">{s.label}</span>
                     <span className="text-slate-500 ml-2">{s.description}</span>
@@ -204,7 +204,7 @@ export function Dashboard() {
                   value={form.order_id}
                   onChange={e => setForm(f => ({ ...f, order_id: e.target.value }))}
                   placeholder="ORD-1042"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-600"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-[#D6A84F]/50"
                 />
               </div>
               <div>
@@ -215,7 +215,7 @@ export function Dashboard() {
                   onChange={e => setForm(f => ({ ...f, reason: e.target.value }))}
                   placeholder="Describe the reason for the refund..."
                   rows={3}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-600 resize-none"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-[#D6A84F]/50 resize-none"
                 />
               </div>
               <div>
@@ -227,7 +227,7 @@ export function Dashboard() {
                   placeholder="149.00"
                   type="number"
                   step="0.01"
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-600"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-[#D6A84F]/50"
                 />
               </div>
             </div>
@@ -243,7 +243,7 @@ export function Dashboard() {
                 id="btn-submit-request"
                 onClick={handleCreate}
                 disabled={creating || !form.order_id || !form.reason || !form.requested_amount}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-all disabled:opacity-50"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#D6A84F] hover:bg-[#C99A3D] text-[#080808] text-sm font-semibold transition-all disabled:opacity-50"
               >
                 {creating ? (
                   <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

@@ -1,0 +1,210 @@
+/* ============================================================
+   RefundGuard Landing Page — isolated styles
+   Does NOT modify the existing application's style.css
+   ============================================================ */
+
+/* --------------- Keyframe animations --------------- */
+
+@keyframes lp-fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes lp-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+@keyframes lp-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* --------------- Responsive breakpoints --------------- */
+
+/* Hero two-column → single column on mobile */
+.hero-grid {
+  grid-template-columns: 1fr 420px;
+}
+
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero-panel {
+    display: none;
+  }
+}
+
+/* Navbar: show hamburger, hide desktop links on mobile */
+.landing-nav-desktop {
+  display: flex;
+}
+.landing-nav-hamburger {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .landing-nav-desktop {
+    display: none !important;
+  }
+  .landing-nav-hamburger {
+    display: flex !important;
+  }
+}
+
+/* Solution grid → single column on mobile */
+.solution-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 768px) {
+  .solution-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Investigation grid → single column on mobile */
+.investigation-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 768px) {
+  .investigation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Policy grid → single column on mobile */
+.policy-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 768px) {
+  .policy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* TrueForge grid → single column on mobile */
+.trueforge-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 900px) {
+  .trueforge-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Features grid → single column on mobile */
+.features-grid {
+  grid-template-columns: 1fr 2fr;
+}
+
+@media (max-width: 900px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Features inner grid → single column on small mobile */
+.features-inner-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 480px) {
+  .features-inner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Dashboard inner grid → single column on mobile */
+.dashboard-grid {
+  grid-template-columns: 260px 1fr;
+}
+
+@media (max-width: 700px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Problem section ── */
+
+/* Desktop: two-column — left copy, right workflow */
+.problem-two-col {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 72px;
+  align-items: start;
+}
+
+.problem-left {
+  /* intentionally not sticky — content height exceeds viewport */
+}
+
+/* Workflow: constrained width, vertical stack */
+.problem-workflow {
+  width: 100%;
+  max-width: 340px;
+}
+
+/* Steps: 3 × 2 grid */
+.problem-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* Tablet: reduce gap, shrink right column */
+@media (max-width: 1024px) {
+  .problem-two-col {
+    grid-template-columns: 1fr 300px;
+    gap: 48px;
+  }
+  .problem-workflow {
+    max-width: 300px;
+  }
+}
+
+/* Below 800px: stack vertically, centre workflow */
+@media (max-width: 800px) {
+  .problem-two-col {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .problem-left {
+    position: static;
+  }
+  .problem-workflow {
+    max-width: 100%;
+    width: 100%;
+  }
+  .problem-annotation {
+    display: none; /* hide the side-note on mobile */
+  }
+}
+
+/* Tablet steps: 2 columns */
+@media (max-width: 900px) {
+  .problem-steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile steps: single column */
+@media (max-width: 480px) {
+  .problem-steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

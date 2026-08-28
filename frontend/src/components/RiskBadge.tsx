@@ -9,17 +9,17 @@ interface Props {
 const RISK_CONFIG = {
   LOW: {
     label: 'Low Risk',
-    color: 'text-emerald-400 bg-emerald-950 border-emerald-800',
+    color: 'text-[#86d4a5] bg-[rgba(45,90,60,0.15)] border-[rgba(45,90,60,0.3)]',
     icon: ShieldCheck,
   },
   MEDIUM: {
     label: 'Medium Risk',
-    color: 'text-amber-400 bg-amber-950 border-amber-800',
+    color: 'text-[#D6A84F] bg-[rgba(214,168,79,0.08)] border-[rgba(214,168,79,0.2)]',
     icon: Shield,
   },
   HIGH: {
     label: 'High Risk',
-    color: 'text-red-400 bg-red-950 border-red-800',
+    color: 'text-[#e88c8c] bg-[rgba(97,44,44,0.15)] border-[rgba(97,44,44,0.3)]',
     icon: AlertTriangle,
   },
 }

@@ -51,8 +51,8 @@ export function Investigation() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-bg)' }}>
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-          <p className="text-slate-400 text-sm">Loading investigation...</p>
+          <div className="w-8 h-8 border-2 border-[#8A8780] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-[#8A8780] text-sm">Loading investigation...</p>
         </div>
       </div>
     )
@@ -63,7 +63,7 @@ export function Investigation() {
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--color-bg)' }}>
         <div className="text-center">
           <p className="text-red-400">Refund request not found.</p>
-          <button onClick={() => navigate('/')} className="mt-4 text-indigo-400 text-sm">← Back to dashboard</button>
+          <button onClick={() => navigate('/dashboard')} className="mt-4 text-[#D6A84F] text-sm">← Back to dashboard</button>
         </div>
       </div>
     )
@@ -79,14 +79,14 @@ export function Investigation() {
       <header className="border-b border-slate-800 px-8 py-5 flex items-center gap-4 glass sticky top-0 z-10">
         <button
           id="btn-back"
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/dashboard')}
           className="w-8 h-8 rounded-lg border border-slate-700 flex items-center justify-center hover:border-slate-500 transition-all text-slate-400 hover:text-white"
         >
           <ArrowLeft size={16} />
         </button>
         <div className="flex items-center gap-3 flex-1">
-          <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-            <Shield className="text-white" size={18} />
+          <div className="w-8 h-8 rounded-lg bg-[rgba(214,168,79,0.08)] border border-[rgba(214,168,79,0.2)] flex items-center justify-center">
+            <Shield className="text-[#D6A84F]" size={18} />
           </div>
           <div>
             <h1 className="text-base font-bold text-white leading-none">Investigation — {request.id}</h1>
@@ -106,7 +106,7 @@ export function Investigation() {
               {customer && (
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-md bg-slate-800 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <User size={13} className="text-blue-400" />
+                    <User size={13} className="text-[#8A8780]" />
                   </div>
                   <div>
                     <div className="text-xs text-slate-500">Customer</div>
@@ -118,7 +118,7 @@ export function Investigation() {
               {order && (
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-md bg-slate-800 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Package size={13} className="text-blue-400" />
+                    <Package size={13} className="text-[#8A8780]" />
                   </div>
                   <div>
                     <div className="text-xs text-slate-500">Product</div>
@@ -129,14 +129,14 @@ export function Investigation() {
               )}
               <div className="flex items-start gap-3">
                 <div className="w-6 h-6 rounded-md bg-slate-800 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <DollarSign size={13} className="text-emerald-400" />
+                  <DollarSign size={13} className="text-[#86d4a5]" />
                 </div>
                 <div>
                   <div className="text-xs text-slate-500">Requested / Recommended</div>
                   <div className="text-sm font-medium text-white">
                     ${parseFloat(request.requested_amount).toFixed(2)}
                     {request.recommended_amount && (
-                      <span className="text-emerald-400 ml-2">
+                      <span className="text-[#86d4a5] ml-2">
                         → ${parseFloat(request.recommended_amount).toFixed(2)}
                       </span>
                     )}
@@ -146,7 +146,7 @@ export function Investigation() {
               {request.risk_level && (
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-md bg-slate-800 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Shield size={13} className="text-violet-400" />
+                    <Shield size={13} className="text-[#8A8780]" />
                   </div>
                   <div>
                     <div className="text-xs text-slate-500 mb-1">Risk Level</div>
@@ -174,15 +174,15 @@ export function Investigation() {
 
           {/* Sandbox indicator */}
           {isLive && (
-            <div className="glass rounded-2xl border border-cyan-800/30 p-4 flex items-center gap-3 animate-fade-in">
-              <div className="w-8 h-8 rounded-full bg-cyan-950/50 border border-cyan-800 flex items-center justify-center">
-                <Cpu className="text-cyan-400" size={16} />
+            <div className="glass rounded-2xl border border-[#2A2A2A] p-4 flex items-center gap-3 animate-fade-in bg-[#111111]">
+              <div className="w-8 h-8 rounded-full bg-[rgba(214,168,79,0.08)] border border-[rgba(214,168,79,0.2)] flex items-center justify-center">
+                <Cpu className="text-[#D6A84F]" size={16} />
               </div>
               <div>
-                <div className="text-sm font-medium text-cyan-300">Agent Investigating</div>
-                <div className="text-xs text-cyan-600">TrueForge sandbox running...</div>
+                <div className="text-sm font-medium text-[#F2EFE8]">Agent Investigating</div>
+                <div className="text-xs text-[#8A8780]">TrueForge sandbox running...</div>
               </div>
-              <div className="ml-auto w-4 h-4 border-2 border-cyan-600 border-t-transparent rounded-full animate-spin" />
+              <div className="ml-auto w-4 h-4 border-2 border-[#8A8780] border-t-transparent rounded-full animate-spin" />
             </div>
           )}
 
@@ -195,24 +195,24 @@ export function Investigation() {
 
           {/* Completed refund info */}
           {request.status === 'COMPLETED' && request.refunds.length > 0 && (
-            <div className="glass rounded-2xl border border-emerald-800/50 p-5 animate-fade-in">
+            <div className="glass rounded-2xl border border-[rgba(45,90,60,0.3)] bg-[rgba(45,90,60,0.08)] p-5 animate-fade-in">
               <div className="flex items-center gap-2 mb-3">
-                <CreditCard className="text-emerald-400" size={16} />
-                <h3 className="text-sm font-semibold text-emerald-300">Refund Processed</h3>
+                <CreditCard className="text-[#86d4a5]" size={16} />
+                <h3 className="text-sm font-semibold text-[#86d4a5]">Refund Processed</h3>
               </div>
               {request.refunds.map(r => (
                 <div key={r.id} className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Transaction ID</span>
+                    <span className="text-[#8A8780]">Transaction ID</span>
                     <span className="text-white font-mono text-xs">{r.id}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Amount</span>
-                    <span className="text-emerald-400 font-bold">${parseFloat(r.amount).toFixed(2)}</span>
+                    <span className="text-[#8A8780]">Amount</span>
+                    <span className="text-[#86d4a5] font-bold">${parseFloat(r.amount).toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Status</span>
-                    <span className="text-emerald-400">{r.status}</span>
+                    <span className="text-[#8A8780]">Status</span>
+                    <span className="text-[#86d4a5]">{r.status}</span>
                   </div>
                 </div>
               ))}
@@ -238,7 +238,7 @@ export function Investigation() {
               <div className="flex items-center gap-2 text-xs text-slate-500">
                 {isLive && (
                   <>
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 dot-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D6A84F] dot-pulse" />
                     Live
                   </>
                 )}

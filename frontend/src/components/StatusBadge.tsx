@@ -6,13 +6,13 @@ interface Props {
 }
 
 const STATUS_CONFIG: Record<RefundStatus, { label: string; color: string; dot: string }> = {
-  PENDING: { label: 'Pending', color: 'bg-slate-800 text-slate-300 border-slate-700', dot: 'bg-slate-400' },
-  INVESTIGATING: { label: 'Investigating', color: 'bg-indigo-950 text-indigo-300 border-indigo-800', dot: 'bg-indigo-400' },
-  AWAITING_APPROVAL: { label: 'Awaiting Approval', color: 'bg-amber-950 text-amber-300 border-amber-700', dot: 'bg-amber-400' },
-  APPROVED: { label: 'Approved', color: 'bg-emerald-950 text-emerald-300 border-emerald-800', dot: 'bg-emerald-400' },
-  REJECTED: { label: 'Rejected', color: 'bg-red-950 text-red-300 border-red-800', dot: 'bg-red-400' },
-  COMPLETED: { label: 'Completed', color: 'bg-emerald-950 text-emerald-300 border-emerald-800', dot: 'bg-emerald-400' },
-  FAILED: { label: 'Failed', color: 'bg-red-950 text-red-400 border-red-800', dot: 'bg-red-400' },
+  PENDING: { label: 'Pending', color: 'bg-[#111111] text-[#8A8780] border-[#252525]', dot: 'bg-[#65635E]' },
+  INVESTIGATING: { label: 'Investigating', color: 'bg-[#151515] text-[#F2EFE8] border-[#252525]', dot: 'bg-[#8A8780]' },
+  AWAITING_APPROVAL: { label: 'Awaiting Approval', color: 'bg-[rgba(214,168,79,0.08)] text-[#D6A84F] border-[rgba(214,168,79,0.2)]', dot: 'bg-[#D6A84F]' },
+  APPROVED: { label: 'Approved', color: 'bg-[rgba(45,90,60,0.15)] text-[#86d4a5] border-[rgba(45,90,60,0.3)]', dot: 'bg-[#2d5a3c]' },
+  REJECTED: { label: 'Rejected', color: 'bg-[rgba(97,44,44,0.15)] text-[#e88c8c] border-[rgba(97,44,44,0.3)]', dot: 'bg-[#612c2c]' },
+  COMPLETED: { label: 'Completed', color: 'bg-[rgba(45,90,60,0.15)] text-[#86d4a5] border-[rgba(45,90,60,0.3)]', dot: 'bg-[#2d5a3c]' },
+  FAILED: { label: 'Failed', color: 'bg-[rgba(97,44,44,0.15)] text-[#e88c8c] border-[rgba(97,44,44,0.3)]', dot: 'bg-[#612c2c]' },
 }
 
 export function StatusBadge({ status, size = 'sm' }: Props) {

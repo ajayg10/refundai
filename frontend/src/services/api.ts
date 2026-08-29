@@ -1,11 +1,12 @@
 import axios from 'axios'
 import type { RefundRequest, AuditLog, DashboardStats } from '../types'
 
+const rawBase = import.meta.env.VITE_API_URL || '/api'
+const apiBase = rawBase.endsWith('/api') ? rawBase : `${rawBase}/api`
+
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api`,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: apiBase,
+  headers: { 'Content-Type': 'application/json' },
 })
 
 // ── Refund Requests ──────────────────────────────────────────────────────

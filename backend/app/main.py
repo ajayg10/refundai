@@ -73,8 +73,13 @@ app = FastAPI(
 # CORS - allow all origins (no credentials needed, this is a public API)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
+allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://refundguardai.vercel.app",
+        "*",
+    ],
+    allow_credentials=False
     allow_methods=["*"],
     allow_headers=["*"],
 )

@@ -2,8 +2,10 @@ import axios from 'axios'
 import type { RefundRequest, AuditLog, DashboardStats } from '../types'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
-  headers: { 'Content-Type': 'application/json' },
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 })
 
 // ── Refund Requests ──────────────────────────────────────────────────────
@@ -24,14 +26,18 @@ export const getActivity = (id: string) =>
   api.get<AuditLog[]>(`/refund-requests/${id}/activity`).then(r => r.data)
 
 export const approveRefund = (id: string, approvedAmount?: string) =>
-  api.post(`/refund-requests/${id}/approve`, {
-    approved_amount: approvedAmount || undefined,
-  }).then(r => r.data)
+  api
+    .post(`/refund-requests/${id}/approve`, {
+      approved_amount: approvedAmount || undefined,
+    })
+    .then(r => r.data)
 
 export const rejectRefund = (id: string, reason?: string) =>
-  api.post(`/refund-requests/${id}/reject`, {
-    reason: reason || 'Rejected by human reviewer',
-  }).then(r => r.data)
+  api
+    .post(`/refund-requests/${id}/reject`, {
+      reason: reason || 'Rejected by human reviewer',
+    })
+    .then(r => r.data)
 
 // ── Dashboard ────────────────────────────────────────────────────────────
 

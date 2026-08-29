@@ -1,4 +1,4 @@
-﻿"""
+"""
 FastAPI application entry point for RefundGuard.
 
 Mounts:
@@ -14,6 +14,7 @@ import logging
 import contextlib
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.db.database import engine
 from app.db import models
@@ -34,11 +35,9 @@ logger = logging.getLogger(__name__)
 @contextlib.asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup + shutdown lifecycle."""
-    # â”€â”€ Create tables â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     logger.info("Creating database tables...")
     models.Base.metadata.create_all(bind=engine)
 
-    # â”€â”€ Seed demo data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     logger.info("Seeding demo data...")
     db = SessionLocal()
     try:
@@ -46,7 +45,6 @@ async def lifespan(app: FastAPI):
     finally:
         db.close()
 
-    # â”€â”€ Ensure TrueForge agent exists â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     logger.info("Checking TrueForge agent setup...")
     try:
         ok = await trueforge_service.ensure_agent_exists()
@@ -54,7 +52,7 @@ async def lifespan(app: FastAPI):
             logger.info("TrueForge agent 'refundguard' is ready.")
         else:
             logger.warning(
-                "TrueForge agent setup failed â€” "
+                "TrueForge agent setup failed - "
                 "make sure TrueForge is running and models/MCP servers are configured."
             )
     except Exception as e:
@@ -72,38 +70,23 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# CORS - allow all origins (no credentials needed, this is a public API)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# Raw CORS middleware - works with any origin, no credential restrictions
-@app.middleware('http')
-async def cors_anywhere(request, call_next):
-    if request.method == 'OPTIONS':
-        from fastapi.responses import Response as FastResponse
-        resp = FastResponse(status_code=204)
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        resp.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
-        resp.headers['Access-Control-Allow-Headers'] = '*'
-        resp.headers['Access-Control-Max-Age'] = '86400'
-        return resp
-    response = await call_next(request)
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = '*'
-    return response
-
-
-
-# â”€â”€ REST API Routers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# REST API Routers
 app.include_router(health.router, tags=["Health"])
 app.include_router(customers.router, prefix="/api", tags=["Customers"])
 app.include_router(orders.router, prefix="/api", tags=["Orders"])
 app.include_router(refund_requests.router, prefix="/api", tags=["Refund Requests"])
 
-# â”€â”€ MCP Server â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-# Mount the MCP server at /mcp so TrueForge can connect to it
-# Register in TrueForge as: http://localhost:8000/mcp
+# MCP Server - mounted at /mcp so TrueForge can connect to it as an MCP server
 mcp_app = mcp.sse_app()
 app.mount("/mcp", mcp_app)
 
 logger.info("RefundGuard backend started. MCP server at /mcp")
-
-
